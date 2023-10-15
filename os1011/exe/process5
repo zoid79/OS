@@ -1,0 +1,9 @@
+compute
+compute
+compute
+compute
+compute
+interrupt 0
+compute
+jump 4
+terminate
