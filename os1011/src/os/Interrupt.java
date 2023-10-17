@@ -3,7 +3,7 @@ package os;
 import os.Interrupt.EInterrupt;
 
 public class Interrupt {
-	public enum EInterrupt{eIOStart,etimeOut,eSystemOut,eIOend,eProcessStart,eProcessEnd}
+	public enum EInterrupt{eIOStart,etimeOut,eSystemOut,eIOend,eProcessStart,eProcessEnd, eTimerReset}
 	private EInterrupt eState;
 	private Object object;
 	public Object getObject() {return object;}

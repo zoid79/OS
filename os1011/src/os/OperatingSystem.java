@@ -10,6 +10,7 @@ public class OperatingSystem {
 	private CircularQueue<Interrupt> interruptQueue;
 	private CircularQueue<Interrupt> IOInterruptQueue;
 	private CircularQueue<Interrupt> FileInterruptQueue;
+	private CircularQueue<Interrupt> timerInterruptQueue;
 
 	
 
@@ -19,12 +20,13 @@ public class OperatingSystem {
 		this.interruptQueue =new  CircularQueue<Interrupt>();
 		this.IOInterruptQueue =new  CircularQueue<Interrupt>();
 		this.FileInterruptQueue =new  CircularQueue<Interrupt>();
+		this.timerInterruptQueue =new  CircularQueue<Interrupt>();
 
 		this.ioManager = new IOManager(this.interruptQueue,this.IOInterruptQueue);
-		this.processManager = new ProcessManager(this.interruptQueue,this.IOInterruptQueue,this.FileInterruptQueue);
+		this.processManager = new ProcessManager(this.interruptQueue,this.IOInterruptQueue,this.FileInterruptQueue,this.timerInterruptQueue);
 		this.memoryManager = new MemoryManager(this.interruptQueue);
 		this.fileManager = new FileManager(this.interruptQueue,this.FileInterruptQueue);
-		this.timer = new MTimer(this.interruptQueue);
+		this.timer = new MTimer(this.interruptQueue,this.timerInterruptQueue);
 	}
 	public void run() {	
 		this.fileManager.start();

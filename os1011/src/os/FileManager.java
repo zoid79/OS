@@ -20,103 +20,47 @@ public class FileManager extends Thread{
 		}
 
 	public void start() {
-		Process process1 = new Process();
-		Process process2 = new Process();
-		Process process3 = new Process();
-		Process process4 = new Process();
-		Process process5 = new Process();
+		ExecutableFile process1 = new ExecutableFile();
+		process1.setHeader("process1");
+		ExecutableFile process2 = new ExecutableFile();
+		process2.setHeader("process2");
+		ExecutableFile process3 = new ExecutableFile();
+		process3.setHeader("process3");
+		ExecutableFile process4 = new ExecutableFile();
+		process4.setHeader("process4");
+		ExecutableFile process5 = new ExecutableFile();
+		process5.setHeader("process5");
+
 
 		String DATA_DIRECTORY = "exe/";
-		String code;
-        try {
-			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+"process1"));
-			while(scanner.hasNext()) {
-				code=scanner.nextLine();
-				process1.setCode(code);
-	        }
-			process1.setHeader("process1");
-			scanner.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Interrupt interrupt1 = new Interrupt(EInterrupt.eProcessStart);
+        loadFile(process1, DATA_DIRECTORY);
+        loadFile(process2, DATA_DIRECTORY);
+        loadFile(process3, DATA_DIRECTORY);
+        loadFile(process4, DATA_DIRECTORY);
+        loadFile(process5, DATA_DIRECTORY);
 
-        interrupt1.setObject(process1);
-        this.interruptQueue.enQueue(interrupt1);
-        try {
-			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+"process2"));
-			while(scanner.hasNext()) {
-				code=scanner.nextLine();
-				process2.setCode(code);
-	        }
-			process2.setHeader("process2");
-			scanner.close();
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Interrupt interrupt2 = new Interrupt(EInterrupt.eProcessStart);
-
-        interrupt2.setObject(process2);
-        this.interruptQueue.enQueue(interrupt2);
-
-        process3 = new Process();
-        try {
-			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+"process2"));
-			while(scanner.hasNext()) {
-				code=scanner.nextLine();
-				process3.setCode(code);
-	        }
-			process3.setHeader("process3");
-			scanner.close();
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Interrupt interrupt3 = new Interrupt(EInterrupt.eProcessStart);
-        interrupt3.setObject(process3);
-        this.interruptQueue.enQueue(interrupt3);
-
-        try {
-			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+"process2"));
-			while(scanner.hasNext()) {
-				code=scanner.nextLine();
-				process4.setCode(code);
-	        }
-			process4.setHeader("process4");
-			scanner.close();
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Interrupt interrupt4 = new Interrupt(EInterrupt.eProcessStart);
-        interrupt4.setObject(process4);
-        this.interruptQueue.enQueue(interrupt4);
-
-        try {
-			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+"process2"));
-			while(scanner.hasNext()) {
-				code=scanner.nextLine();
-				process5.setCode(code);
-	        }
-			process5.setHeader("process5");
-			scanner.close();
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Interrupt interrupt5 = new Interrupt(EInterrupt.eProcessStart);
-
-        interrupt5.setObject(process5);
-        this.interruptQueue.enQueue(interrupt5);
 System.out.println("********************************");
 	}
-	public class Process {
+
+	private void loadFile(ExecutableFile process, String DATA_DIRECTORY) {
+		String code;
+		try {
+			Scanner scanner = new Scanner(new File(DATA_DIRECTORY+process.getHeader()));
+			while(scanner.hasNext()) {
+				code=scanner.nextLine();
+				process.setCode(code);
+	        }
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Interrupt interrupt = new Interrupt(EInterrupt.eProcessStart);
+
+        interrupt.setObject(process);
+        this.interruptQueue.enQueue(interrupt);
+	}
+	public class ExecutableFile {
 		private int pc;
 		private Vector<String> instructions;
 		private String header;
@@ -133,7 +77,7 @@ System.out.println("********************************");
 		public void setHeader(String header) {
 			this.header = header;
 		}
-		public Process() {
+		public ExecutableFile() {
 			this.pc=0;
 			this.instructions = new Vector<String>();
 		}

@@ -7,22 +7,24 @@ import os.Interrupt.EInterrupt;
 public class MTimer extends Thread{
 	private Timer timer;
 	CircularQueue<Interrupt> interruptQueue;
-	public MTimer(CircularQueue<Interrupt> interruptQueue) {
+	CircularQueue<Interrupt> timerInterruptQueue;
+	Object object;
+
+	public MTimer(CircularQueue<Interrupt> interruptQueue, CircularQueue<Interrupt> timerInterruptQueue) {
 		this.interruptQueue = interruptQueue;
+		this.timerInterruptQueue = timerInterruptQueue;
+
 	}
 	@Override
 	public void run() {
 		while(true) {
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Interrupt interrupt = new Interrupt(EInterrupt.etimeOut);
-			this.interruptQueue.enQueue(interrupt);
+			while(this.timerInterruptQueue.peekQueue()!=null) this.object=this.timerInterruptQueue.deQueue().getObject();
+			try {Thread.sleep(150);}
+			catch (InterruptedException e) {e.printStackTrace();}
+		Interrupt interrupt = new Interrupt(EInterrupt.etimeOut);
+		interrupt.setObject(this.object);
+		this.interruptQueue.enQueue(interrupt);
 		}
-		
-	}
+		}
 
 }

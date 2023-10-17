@@ -29,21 +29,22 @@ public IOManager(CircularQueue<Interrupt> interruptQueue,CircularQueue<Interrupt
 
 		while(true) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.runningProcess = null;
 			if(this.ioInterruptQueue.peekQueue() !=null) {
-				this.runningProcess = this.ioInterruptQueue.deQueue().getObject().toString();
+				this.runningProcess = this.ioInterruptQueue.deQueue().getObject();
 				System.out.println("---------IO Device----------");
 				System.out.println("|");
-				System.out.println(this.runningProcess+": using now");
+				System.out.println(this.runningProcess.toString()+": using now");
 				System.out.println("|");
 				System.out.println("---------IO Device----------");
 
 				Interrupt interrupt = new Interrupt(EInterrupt.eIOend);
+				interrupt.setObject(this.runningProcess);
 				this.interruptQueue.enQueue(interrupt);
 			}
 			
