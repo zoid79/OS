@@ -1,0 +1,7 @@
+$DS 2
+$CS 3
+@math 60
+@english 70
+loadA @math
+addA @english
+interrupt 0
